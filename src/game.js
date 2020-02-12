@@ -3,14 +3,14 @@ import './index.css';
 import Board from './board'
 import {calculateWinner} from './helper';
 
-
 class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       history: [{
-        squares: Array(9).fill(null)
+        squares: Array(9).fill(null),
       }],
+      locations: ['Go to game start'],
       xIsNext: true,
       stepNumber: 0
     };
@@ -21,17 +21,26 @@ class Game extends React.Component {
     const current = history[history.length - 1];
     
     const squares = current.squares.slice();
+    const locations = this.state.locations.slice();
 
     // The squares[i] prevents a previously played
     // square from being overwritten
     if(calculateWinner(squares) || squares[i]) {
       return;
     }
+
     squares[i] = this.state.xIsNext ? 'X' : 'O';
+
+    const row = Math.floor(i / 3 )  + 1;
+    const col = (i % 3 ) + 1 ;
+
+    locations.push(`row: ${row}, col: ${col}`);
+
     this.setState({
       history: history.concat([{
-        squares: squares
+        squares: squares,
       }]),
+      locations: locations,
       xIsNext: !this.state.xIsNext,
       stepNumber: history.length
     })
@@ -44,20 +53,26 @@ class Game extends React.Component {
     });
   }
 
+  addMove(move, desc) {
+    return (
+      <li key={move}>
+        <button onClick={() => this.jumpTo(move)}> {desc} </button>
+      </li>
+    )
+  }
+
   render() {
     const history = this.state.history;
+    const locations = this.state.locations;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
 
-    const moves = history.map((_step, move) => {
-      const desc = move ?
-        'Go to move #' + move :
-        'Go to game start';
-        return (
-          <li key={move}>
-            <button onClick={() => this.jumpTo(move)} > {desc} </button>
-          </li>
-        )
+    const moves = history.map((step, move) => {
+
+      const location = locations[move];
+      const desc = move ? 'Go to move #' + move  + ' ' + location: location;
+
+      return (this.addMove(move, desc))
     });
     let status;
     if (winner) {
@@ -76,7 +91,6 @@ class Game extends React.Component {
           />
         </div>
         <div className="game-info">
-          {/* <div className="status">{ status }</div> */}
           <ol>{moves}</ol>
         </div>
       </div>
