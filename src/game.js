@@ -53,10 +53,12 @@ class Game extends React.Component {
     });
   }
 
-  addMove(move, desc) {
+  addMove(move, desc, isCurrentMove) {
+    const description = isCurrentMove ? <b> {desc} </b> : desc;
+
     return (
       <li key={move}>
-        <button onClick={() => this.jumpTo(move)}> {desc} </button>
+        <button onClick={() => this.jumpTo(move)}> {description} </button>
       </li>
     )
   }
@@ -67,13 +69,13 @@ class Game extends React.Component {
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
     const noWinners = current.squares.every(i => i == 'X' || i == 'O')
+    const currentStep = this.state.stepNumber;
 
     const moves = history.map((step, move) => {
-
       const location = locations[move];
       const desc = move ? 'Go to move #' + move  + ' ' + location: location;
-
-      return (this.addMove(move, desc))
+      const isCurrentMove = currentStep == move;
+      return (this.addMove(move, desc, isCurrentMove))
     });
     let status;
     if (winner) {
