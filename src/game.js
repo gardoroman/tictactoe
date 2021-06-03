@@ -6,25 +6,19 @@ import {calculateWinner} from './helper';
 class Game extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
+    this.state = this.getDefaultState();
+  }
+
+  getDefaultState(){
+    return({
       history: [{
         squares: Array(9).fill(null),
       }],
       locations: ['Go to game start'],
       xIsNext: true,
       stepNumber: 0
-    };
-    // this.state = this.getDefaultState();
-  }
-
-  getDefaultState = () => ({
-    history: [{
-      squares: Array(9).fill(null),
-    }],
-    locations: ['Go to game start'],
-    xIsNext: true,
-    stepNumber: 0
-  });
+    });
+  };
 
   handleClick(i) {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
@@ -75,6 +69,10 @@ class Game extends React.Component {
     )
   }
 
+  resetGame(){
+    this.setState(this.getDefaultState());
+  }
+
   render() {
     const history = this.state.history;
     const locations = this.state.locations;
@@ -99,19 +97,28 @@ class Game extends React.Component {
     }
 
     return (
-      <div className="game">
-        <div className="game-board">
-          <div className="status">{status}</div>
-          <Board 
-            squares={current.squares}
-            onClick={(i) => this.handleClick(i)}
-            winningSquares={winningSquares}
-          />
+        <div>
+          <div className="game">
+            <div className="game-board">
+              <div className="status">{status}</div>
+              <Board 
+                squares={current.squares}
+                onClick={(i) => this.handleClick(i)}
+                winningSquares={winningSquares}
+              />
+            </div>
+            <div className="game-info">
+              <ol>{moves}</ol>
+            </div>
+          </div>
+          <div>
+            <button onClick={()=> this.resetGame()}>
+              New Game
+            </button>
+          </div>
         </div>
-        <div className="game-info">
-          <ol>{moves}</ol>
-        </div>
-      </div>
+
+      
     );
   }
 }
