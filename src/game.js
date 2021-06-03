@@ -1,5 +1,4 @@
 import React from 'react';
-import './index.css';
 import Board from './board'
 import {calculateWinner} from './helper';
 
@@ -97,7 +96,7 @@ class Game extends React.Component {
     }
 
     return (
-        <div>
+        <div className="container bg-blue-800">
           <div className="game">
             <div className="game-board">
               <div className="status">{status}</div>
