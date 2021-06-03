@@ -14,7 +14,17 @@ class Game extends React.Component {
       xIsNext: true,
       stepNumber: 0
     };
+    // this.state = this.getDefaultState();
   }
+
+  getDefaultState = () => ({
+    history: [{
+      squares: Array(9).fill(null),
+    }],
+    locations: ['Go to game start'],
+    xIsNext: true,
+    stepNumber: 0
+  });
 
   handleClick(i) {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
@@ -22,11 +32,12 @@ class Game extends React.Component {
 
     const squares = current.squares.slice();
     const locations = this.state.locations.slice(0, this.state.stepNumber + 1);
-    const winningSquares = calculateWinner(squares)
+    const winningSquares = calculateWinner(squares);
 
-    // The squares[i] prevents a previously played
-    // square from being overwritten
-    if(winningSquares && (winningSquares[0] || squares[i])) {
+    // If the square already has a value 
+    // or winningSqaures are returned, 
+    //prevent any further action
+    if(squares[i] || winningSquares) {
       return;
     }
 
