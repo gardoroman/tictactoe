@@ -5,7 +5,7 @@ class Board extends React.Component {
 
   renderSquare(i) {
     const currentSquare = this.props.squares[i];
-    const isBold = this.props.winningSquares && (this.props.winningSquares[0] == currentSquare);
+    const isBold = this.props.winningSquares && (this.props.winningSquares.includes(i));
     return (
       <Square 
         key={i}

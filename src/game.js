@@ -69,18 +69,18 @@ class Game extends React.Component {
     const locations = this.state.locations;
     const current = history[this.state.stepNumber];
     const winningSquares = calculateWinner(current.squares);
-    const noWinners = current.squares.every(i => i == 'X' || i == 'O')
+    const noWinners = current.squares.every(i => i === 'X' || i === 'O')
     const currentStep = this.state.stepNumber;
 
     const moves = history.map((step, move) => {
       const location = locations[move];
       const desc = move ? 'Go to move #' + move  + ' ' + location: location;
-      const isCurrentMove = currentStep == move;
+      const isCurrentMove = currentStep === move;
       return (this.addMove(move, desc, isCurrentMove))
     });
     let status;
     if (winningSquares) {
-      status = 'Winner: ' + winningSquares[0];
+      status = 'Winner: ' + current.squares[winningSquares[0]];
     } else if (noWinners) {
       status = 'Draw'
     } else {
