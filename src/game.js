@@ -63,7 +63,10 @@ class Game extends React.Component {
 
     return (
       <li key={move}>
-        <button onClick={() => this.jumpTo(move)}> {description} </button>
+        <button 
+          className="bg-gray-500 mt-2 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded w-96"
+          onClick={() => this.jumpTo(move)}> {description} 
+      </button>
       </li>
     )
   }
@@ -96,8 +99,13 @@ class Game extends React.Component {
     }
 
     return (
-        <div className="container bg-blue-800">
-          <div className="game">
+        <div className="container mx-auto mt-20 text-xl">
+          <div>
+            <button className="mt-10 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={()=> this.resetGame()}>
+              New Game
+            </button>
+          </div>
+          <div className="mt-20 flex flex-row">
             <div className="game-board">
               <div className="status">{status}</div>
               <Board 
@@ -106,15 +114,11 @@ class Game extends React.Component {
                 winningSquares={winningSquares}
               />
             </div>
-            <div className="game-info">
+            <div className="ml-10">
               <ol>{moves}</ol>
             </div>
           </div>
-          <div>
-            <button onClick={()=> this.resetGame()}>
-              New Game
-            </button>
-          </div>
+
         </div>
 
       
